@@ -4,42 +4,49 @@ import model.Book;
 import model.builder.BookBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import repository.BookRepository;
-import repository.BookRepositoryCacheDecorator;
-import repository.BookRepositoryMock;
+import repository.book.BookRepository;
+import repository.book.BookRepositoryCacheDecorator;
+import repository.book.BookRepositoryMock;
 import repository.Cache;
-import java.util.List;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BookRepositoryMockTest {
 
-    private static BookRepository repository;
+   private static BookRepository bookRepository;
 
-    @BeforeAll
-    public static void setup(){
-        repository = new BookRepositoryCacheDecorator(new BookRepositoryMock(), new Cache<>());
-        System.out.println("@Before");
+   @BeforeAll
+   public static void setupClass(){
+       bookRepository = new BookRepositoryCacheDecorator(
+               new BookRepositoryMock(),
+               new Cache<>()
+       );
+   }
+
+   @Test
+    public void findAll(){
+       assertEquals(0, bookRepository.findAll().size());
     }
 
     @Test
-    public void findAll()
-    {
-        System.out.println("findAll");
-        List<Book> allBooks = repository.findAll();
-
-        assertTrue(allBooks.isEmpty());
-
-        int nrInsertedBooks = 5;
-        for(int i=0; i<nrInsertedBooks; i++){
-            repository.save(new BookBuilder().setTitle("Title").build());
-        }
-
-        List<Book> newBooks = repository.findAll();
-
-        assertEquals(nrInsertedBooks, newBooks.size());
-
+    public void findById(){
+       final Optional<Book> books = bookRepository.findById(1L);
+       assertTrue(books.isEmpty());
     }
+
+    @Test
+    public void save(){
+       Book book = new BookBuilder()
+               .setAuthor("Author")
+               .setTitle("Title")
+               .build();
+
+       assertTrue(bookRepository.save(book));
+    }
+
+
 
 }

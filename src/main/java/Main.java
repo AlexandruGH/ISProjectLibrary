@@ -1,7 +1,10 @@
 import database.DatabaseConnectionFactory;
 import repository.*;
-import service.BookService;
-import service.BookServiceImpl;
+import repository.book.BookRepository;
+import repository.book.BookRepositoryCacheDecorator;
+import repository.book.BookRepositoryMySQL;
+import service.book.BookService;
+import service.book.BookServiceImpl;
 import java.sql.Connection;
 
 public class Main {

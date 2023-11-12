@@ -1,4 +1,5 @@
 import database.DatabaseConnectionFactory;
+import model.builder.BookBuilder;
 import repository.*;
 import repository.book.BookRepository;
 import repository.book.BookRepositoryCacheDecorator;
@@ -6,6 +7,7 @@ import repository.book.BookRepositoryMySQL;
 import service.book.BookService;
 import service.book.BookServiceImpl;
 import java.sql.Connection;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args){
@@ -36,18 +38,13 @@ public class Main {
 //                .setTitle("Awesome2")
 //                .setPublishedDate(LocalDate.of(2010, 6, 1))
 //                .build());
-//        bookService.save(new BookBuilder()
-//                .setId(3L)
-//                .setAuthor("Alex3")
-//                .setTitle("Awesome3")
-//                .setPublishedDate(LocalDate.of(2011, 7, 1))
-//                .build());
-//        bookService.save(new BookBuilder()
-//                .setId(4L)
-//                .setAuthor("Alex4")
-//                .setTitle("Awesome4")
-//                .setPublishedDate(LocalDate.of(2012, 8, 1))
-//                .build());
+        bookService.save(new BookBuilder()
+                .setId(3L)
+                .setAuthor("Alex3")
+                .setTitle("Awesome3")
+                .setPublishedDate(LocalDate.of(2011, 7, 1))
+                .build());
+
 
 
         System.out.println(bookService.findAll());

@@ -1,6 +1,5 @@
 package repository.user;
 
-import controller.Response;
 import model.User;
 
 import java.util.List;
@@ -15,5 +14,5 @@ public interface UserRepository {
 
     void removeAll();
 
-    Response<Boolean> existsByUsername(String email);
+    boolean existsByUsername(String email);
 }

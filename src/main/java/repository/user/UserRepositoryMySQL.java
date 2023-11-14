@@ -1,5 +1,4 @@
 package repository.user;
-import controller.Response;
 import model.User;
 import model.builder.UserBuilder;
 import repository.security.RightsRolesRepository;
@@ -9,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
 import java.util.List;
 
 import static database.Constants.Tables.USER;
@@ -90,17 +88,20 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override
-    public Response<Boolean> existsByUsername(String email) {
+    public boolean existsByUsername(String email) {
         try {
             Statement statement = connection.createStatement();
 
             String fetchUserSql =
                     "Select * from `" + USER + "` where `username`=\'" + email + "\'";
             ResultSet userResultSet = statement.executeQuery(fetchUserSql);
-            return new Response<>(userResultSet.next());
+            return userResultSet.next();
+
         } catch (SQLException e) {
-            return new Response<>(singletonList(e.getMessage()));
+            e.printStackTrace();
+            return false;
         }
+
     }
 
 }

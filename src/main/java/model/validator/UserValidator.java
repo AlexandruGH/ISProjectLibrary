@@ -1,6 +1,5 @@
 package model.validator;
 
-import controller.Response;
 import repository.user.UserRepository;
 
 import java.util.ArrayList;
@@ -27,14 +26,9 @@ public class UserValidator {
     }
 
     private void validateEmailUniqueness(String email) {
-        final Response<Boolean> response = userRepository.existsByUsername(email);
-        if (response.hasErrors()) {
-            errors.add(response.getFormattedErrors());
-        } else {
-            final Boolean data = response.getData();
-            if (data) {
-                errors.add("Email is already taken");
-            }
+        final boolean response = userRepository.existsByUsername(email);
+        if (response) {
+            errors.add("Email is already taken");
         }
     }
 

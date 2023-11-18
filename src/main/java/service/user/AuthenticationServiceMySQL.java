@@ -24,7 +24,7 @@ public class AuthenticationServiceMySQL implements AuthenticationService {
 
     @Override
     public boolean register(String username, String password) {
-        String encodedPassword = encodePassword(password);
+        String encodedPassword = hashPassword(password);
 
         Role customerRole = rightsRolesRepository.findRoleByTitle(CUSTOMER);
 
@@ -39,7 +39,7 @@ public class AuthenticationServiceMySQL implements AuthenticationService {
 
     @Override
     public User login(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username, encodePassword(password));
+        return userRepository.findByUsernameAndPassword(username, hashPassword(password));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AuthenticationServiceMySQL implements AuthenticationService {
         return false;
     }
 
-    private String encodePassword(String password) {
+    private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));

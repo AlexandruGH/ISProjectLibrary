@@ -1,12 +1,13 @@
 package controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import model.User;
 import model.validator.UserValidator;
 import service.user.AuthenticationService;
 import view.LoginView;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.EventListener;
 import java.util.List;
 
 public class LoginController {
@@ -23,31 +24,41 @@ public class LoginController {
 
         this.loginView.addLoginButtonListener(new LoginButtonListener());
         this.loginView.addRegisterButtonListener(new RegisterButtonListener());
-        this.loginView.setVisible(true);
     }
 
-    private class LoginButtonListener implements ActionListener {
+    private class LoginButtonListener implements EventHandler<ActionEvent> {
+
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void handle(javafx.event.ActionEvent event) {
             String username = loginView.getUsername();
             String password = loginView.getPassword();
 
-            authenticationService.login(username, password);
+            User user = authenticationService.login(username, password);
+
+            if (user == null){
+                loginView.setActionTargetText("Invalid Username or password!");
+            }else{
+                loginView.setActionTargetText("Invalid Username or password!");
+            }
+
         }
     }
 
-    private class RegisterButtonListener implements ActionListener {
+    private class RegisterButtonListener implements EventHandler<ActionEvent> {
+
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void handle(ActionEvent event) {
             String username = loginView.getUsername();
             String password = loginView.getPassword();
 
             userValidator.validate(username, password);
             final List<String> errors = userValidator.getErrors();
             if (errors.isEmpty()) {
-                authenticationService.register(username, password);
+                if (authenticationService.register(username, password)){
+                    loginView.setActionTargetText("Invalid Username or password. User may be already taken!");
+                }
             } else {
-                JOptionPane.showMessageDialog(loginView.getContentPane(), userValidator.getFormattedErrors());
+                loginView.setActionTargetText(userValidator.getFormattedErrors());
             }
         }
     }

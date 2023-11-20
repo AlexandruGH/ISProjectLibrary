@@ -25,7 +25,7 @@ public class BookRepositoryMySQLTest {
     public static void setupClass(){
         bookRepository = new BookRepositoryCacheDecorator(
                 new BookRepositoryMySQL(
-                        DatabaseConnectionFactory.getConnectionWrapper(true).getConnection()
+                        new DatabaseConnectionFactory().getConnectionWrapper(true).getConnection()
                 ),
                 new Cache<>()
         );

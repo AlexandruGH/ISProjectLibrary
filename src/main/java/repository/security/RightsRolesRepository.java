@@ -3,6 +3,7 @@ package repository.security;
 import model.Right;
 import model.Role;
 import model.User;
+import model.validator.Notification;
 
 import java.util.List;
 

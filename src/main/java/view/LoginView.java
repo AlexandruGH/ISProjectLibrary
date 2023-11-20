@@ -18,8 +18,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
-import java.util.EventListener;
 
 public class LoginView {
 
@@ -37,6 +37,9 @@ public class LoginView {
 
         Scene scene = new Scene(gridPane, 720, 480);
         primaryStage.setScene(scene);
+
+        Image icon = new Image("BookStore.png");
+        primaryStage.getIcons().add(icon);
 
         initializeSceneTitle(gridPane);
 
